@@ -22,10 +22,10 @@ export default function InputSearch() {
     }
 
     return (
-        <div className="space-y-2">
+        <div className="space-y-2 w-[200px] lg:w-full">
             <div className="relative text-slate-800">
                 <Input id="input-26"
-                    className="peer pe-9 ps-9 bg-[#FAFAFA] text-sm"
+                    className="pe-9 ps-9 bg-[#FAFAFA] text-sm"
                     placeholder="Search..."
                     ref={searchRef}
                     onKeyDown={handleKeyDown}

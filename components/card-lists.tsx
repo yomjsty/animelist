@@ -21,22 +21,28 @@ const CardLists = (
                                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                     priority
                                 />
-                                <Badge className="absolute top-2 right-2 bg-yellow-500 text-white flex items-center gap-1">
-                                    {anime.score > 0 ? (
-                                        <>
-                                            <StarIcon className="size-3" />
-                                            {anime.score}
-                                        </>
-                                    ) : (
-                                        <span>N/A</span>
-                                    )}
-                                </Badge>
+                                {anime.score && (
+                                    <Badge className="absolute top-2 right-2 bg-yellow-500 text-white flex items-center gap-1">
+                                        {anime.score > 0 ? (
+                                            <>
+                                                <StarIcon className="size-3" />
+                                                {anime.score}
+                                            </>
+                                        ) : (
+                                            <span>N/A</span>
+                                        )}
+                                    </Badge>
+                                )}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent translate-y-6 transition-all duration-300 group-hover:translate-y-0" />
                                 <div className="absolute bottom-0 inset-x-0 p-4 transition-all duration-300">
-                                    <div className="text-white">
-                                        <h2 className="font-medium line-clamp-2 translate-y-12 transition-all duration-300 group-hover:translate-y-0">{anime.title}</h2>
-                                        <p className="mt-1 text-sm text-gray-200 line-clamp-2 opacity-0 transition-all duration-300 group-hover:opacity-100">{anime.synopsis}</p>
-                                    </div>
+                                    {anime.synopsis ? (
+                                        <div className="text-white">
+                                            <h2 className="font-medium line-clamp-2 translate-y-12 transition-all duration-300 group-hover:translate-y-0">{anime.title}</h2>
+                                            <p className="mt-1 text-sm text-gray-200 line-clamp-2 opacity-0 transition-all duration-300 group-hover:opacity-100">{anime.synopsis}</p>
+                                        </div>
+                                    ) : (
+                                        <h2 className="text-white font-medium line-clamp-2">{anime.title}</h2>
+                                    )}
                                 </div>
                             </div>
                         </Link>

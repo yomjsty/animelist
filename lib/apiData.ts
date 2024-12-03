@@ -3,3 +3,8 @@ export const getDataResponse = async (resource: string, query?: string) => {
     const data = await response.json()
     return data
 }
+
+export const getNestedDataResponse = async (resource: string) => {
+    const response = await getDataResponse(resource)
+    return response.data.flatMap((item: any) => item.entry)
+}

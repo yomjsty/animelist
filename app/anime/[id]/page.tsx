@@ -1,3 +1,4 @@
+import NotFound from "@/app/not-found"
 import VideoPlayer from "@/components/videoplayer"
 import { getDataResponse } from "@/lib/apiData"
 import Image from "next/image"
@@ -7,15 +8,23 @@ const AnimeSinglePage = async ({ params }: { params: Promise<{ id: string }> }) 
     const id = (await params).id
     const response = await getDataResponse(`anime/${id}`)
     const charactersResponse = await getDataResponse(`anime/${id}/characters`)
+
+    if (!response?.data) {
+        return <NotFound />
+    }
+
     const data = response.data
-    const characters = charactersResponse.data.slice(0, 6)
+    const characters = charactersResponse?.data ? charactersResponse.data.slice(0, 6) : []
+
+    const imageUrl = data?.images?.webp?.image_url || '/placeholder.svg';
+    const imageJpgUrl = data?.images?.jpg?.image_url || '/placeholder.svg';
 
     return (
         <div>
             <div className="relative h-[300px] overflow-hidden bg-gradient-to-b from-gray-900/90 to-gray-800/90">
                 <div className="absolute inset-0">
                     <Image
-                        src={data.images.webp.image_url}
+                        src={imageUrl}
                         alt={data.title}
                         className="opacity-75 object-cover hover:opacity-90 transition-opacity duration-300"
                         fill
@@ -28,7 +37,7 @@ const AnimeSinglePage = async ({ params }: { params: Promise<{ id: string }> }) 
                 <div className="grid gap-8">
                     <div className="flex flex-col md:flex-row gap-6 -mt-48 lg:-mt-20 relative z-10">
                         <Image
-                            src={data.images.jpg.image_url}
+                            src={imageJpgUrl}
                             alt={data.title}
                             width={200}
                             height={300}
@@ -44,10 +53,12 @@ const AnimeSinglePage = async ({ params }: { params: Promise<{ id: string }> }) 
                     <div className="grid gap-8 lg:grid-cols-3">
                         <div className="lg:col-span-2 space-y-4">
                             <div className="space-y-8">
-                                <div>
-                                    <h2 className="text-xl font-medium mb-3">Trailer</h2>
-                                    <VideoPlayer url={data.trailer.embed_url} />
-                                </div>
+                                {data.trailer?.embed_url && (
+                                    <div>
+                                        <h2 className="text-xl font-medium mb-3">Trailer</h2>
+                                        <VideoPlayer url={data.trailer.embed_url} />
+                                    </div>
+                                )}
                                 <div>
                                     <h2 className="text-xl font-medium mb-3">Synopsis</h2>
                                     <div className="grid gap-4">
